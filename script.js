@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabelaRegistros = document.getElementById('tabelaRegistros').getElementsByTagName('tbody')[0];
     const botaoLimpar = document.getElementById('limparRegistros');
     const tabelaMedias = document.getElementById('tabelaMedias').getElementsByTagName('tbody')[0];
+    const mediaGeralElemento = document.getElementById('mediaGeral');
 
     carregarRegistros();
     atualizarMedias();
@@ -114,5 +115,36 @@ document.addEventListener('DOMContentLoaded', function() {
             celulaBox.textContent = box;
             celulaMedia.textContent = medias[box].toFixed(3); // Exibe a média com 2 casas decimais
         }
+    }
+    function atualizarMedias() {
+        const medias = calcularMediaPorBox();
+        tabelaMedias.innerHTML = '';
+        for (const box in medias) {
+            const novaLinha = tabelaMedias.insertRow();
+            const celulaBox = novaLinha.insertCell(0);
+            const celulaMedia = novaLinha.insertCell(1);
+
+            celulaBox.textContent = box;
+            celulaMedia.textContent = medias[box].toFixed(3);
+        }
+        atualizarMediaGeral();
+    }
+
+    function calcularMediaGeral() {
+        const medias = calcularMediaPorBox();
+        let somaMedias = 0;
+        let quantidadeBoxes = 0;
+
+        for (const box in medias) {
+            somaMedias += medias[box];
+            quantidadeBoxes++;
+        }
+
+        return quantidadeBoxes > 0 ? somaMedias / quantidadeBoxes : 0;
+    }
+
+    function atualizarMediaGeral() {
+        const mediaGeral = calcularMediaGeral();
+        mediaGeralElemento.textContent = mediaGeral.toFixed(3);
     }
 });
