@@ -4,9 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const botaoLimpar = document.getElementById('limparRegistros');
     const tabelaMedias = document.getElementById('tabelaMedias').getElementsByTagName('tbody')[0];
     const mediaGeralElemento = document.getElementById('mediaGeral');
+    const mensagemWhatsAppSelect = document.getElementById('mensagemWhatsApp');
+    const enviarWhatsAppButton = document.getElementById('enviarWhatsApp');
 
     carregarRegistros();
     atualizarMedias();
+
+    enviarWhatsAppButton.addEventListener('click', function() {
+        const mensagemSelecionada = mensagemWhatsAppSelect.value;
+        const mensagem = gerarMensagemWhatsApp(mensagemSelecionada);
+        enviarMensagemWhatsApp(mensagem);
+    });
 
     formRegistro.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -42,10 +50,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     window.excluirRegistro = function(botao) {
-        const linha = botao.parentNode.parentNode;
-        linha.parentNode.removeChild(linha);
-        salvarRegistros();
-        atualizarMedias();
+        if (confirm('Tem certeza de que deseja excluir este registro?')) {
+            const linha = botao.parentNode.parentNode;
+            linha.parentNode.removeChild(linha);
+            salvarRegistros();
+            atualizarMedias();
+        }
     };
 
     function salvarRegistros() {
@@ -73,10 +83,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function limparRegistros() {
-        while (tabelaRegistros.firstChild) {
-            tabelaRegistros.removeChild(tabelaRegistros.firstChild);
+        if (confirm('Tem certeza de que deseja limpar todos os registros?')) {
+            while (tabelaRegistros.firstChild) {
+                tabelaRegistros.removeChild(tabelaRegistros.firstChild);
+            }
+            localStorage.removeItem('registrosPesagem');
         }
-        localStorage.removeItem('registrosPesagem');
     }
 
     function calcularMediaPorBox() {
@@ -147,4 +159,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const mediaGeral = calcularMediaGeral();
         mediaGeralElemento.textContent = mediaGeral.toFixed(3);
     }
+
+    function gerarMensagemWhatsApp(mensagemSelecionada) {
+        switch (mensagemSelecionada) {
+            case '7 dias':
+                return aviarios.value + ' - 7 dias' + "\nPeso: " + mediaGeralElemento.textContent + "\nMortalidade: ";
+            case '14 dias':
+                return aviarios.value + ' - 14 dias' + "\nPeso: " + mediaGeralElemento.textContent + "\nMortalidade: ";
+            case '21 dias':
+                return aviarios.value + ' - 21 dias' + "\nPeso: " + mediaGeralElemento.textContent + "\nMortalidade: ";
+            case 'Programação':
+                return 'Peso ' + aviarios.value + ': ' + mediaGeralElemento.textContent;
+            default:
+                return '';
+        }
+    }
+
+    function enviarMensagemWhatsApp(mensagem) {
+        const numeroTelefone = '5554999669270'; // Substitua pelo número de telefone
+        const url = `https://wa.me/${numeroTelefone}?text=${encodeURIComponent(mensagem)}`;
+        window.open(url, '_blank');
+    }
+
+
 });
