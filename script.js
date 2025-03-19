@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabelaMedias = document.getElementById('tabelaMedias').getElementsByTagName('tbody')[0];
     const mediaGeralElemento = document.getElementById('mediaGeral');
     const mensagemWhatsAppSelect = document.getElementById('mensagemWhatsApp');
+    const aviariosSelect = document.getElementById('aviarios');
     const enviarWhatsAppButton = document.getElementById('enviarWhatsApp');
     const opcaoSalva = localStorage.getItem('opcaoMensagemWhatsApp');
     if (opcaoSalva) {
@@ -13,6 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
     mensagemWhatsAppSelect.addEventListener('change', function() {
         const opcaoSelecionada = this.value;
         localStorage.setItem('opcaoMensagemWhatsApp', opcaoSelecionada);
+    });
+    const opcaoaviarios = localStorage.getItem('opcaoaviarios2');
+    if (opcaoaviarios) {
+        aviariosSelect.value = opcaoaviarios;
+    }
+    aviariosSelect.addEventListener('change', function() {
+        const opcaoSelecionada2 = this.value;
+        localStorage.setItem('opcaoaviarios2', opcaoSelecionada2);
     });
 
     carregarRegistros();
