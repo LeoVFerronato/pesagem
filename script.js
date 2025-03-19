@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const mediaGeralElemento = document.getElementById('mediaGeral');
     const mensagemWhatsAppSelect = document.getElementById('mensagemWhatsApp');
     const enviarWhatsAppButton = document.getElementById('enviarWhatsApp');
+    const opcaoSalva = localStorage.getItem('opcaoMensagemWhatsApp');
+    if (opcaoSalva) {
+        mensagemWhatsAppSelect.value = opcaoSalva;
+    }
+    mensagemWhatsAppSelect.addEventListener('change', function() {
+        const opcaoSelecionada = this.value;
+        localStorage.setItem('opcaoMensagemWhatsApp', opcaoSelecionada);
+    });
 
     carregarRegistros();
     atualizarMedias();
