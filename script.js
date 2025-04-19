@@ -109,26 +109,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function calcularMediaPorBox() {
-        const medias = {};
+        const mediasPorBox = {};
+
         for (let i = 0; i < tabelaRegistros.rows.length; i++) {
             const linha = tabelaRegistros.rows[i];
             const quantidade = parseFloat(linha.cells[0].textContent);
             const peso = parseFloat(linha.cells[1].textContent);
             const tara = parseFloat(linha.cells[2].textContent);
             const box = linha.cells[3].textContent;
-            const media = (peso - tara) / quantidade;
 
-            if (!medias[box]) {
-                medias[box] = { soma: 0, quantidade: 0 };
+            if (!mediasPorBox[box]) {
+                mediasPorBox[box] = { somaPesos: 0, somaTaras: 0, somaQuantidades: 0 };
             }
 
-            medias[box].soma += media;
-            medias[box].quantidade++;
+            mediasPorBox[box].somaPesos += peso;
+            mediasPorBox[box].somaTaras += tara;
+            mediasPorBox[box].somaQuantidades += quantidade;
         }
 
         const resultados = {};
-        for (const box in medias) {
-            resultados[box] = medias[box].soma / medias[box].quantidade;
+        for (const box in mediasPorBox) {
+            const pesoLiquidoTotal = mediasPorBox[box].somaPesos - mediasPorBox[box].somaTaras;
+            const somaTotalQuantidades = mediasPorBox[box].somaQuantidades;
+
+            if (somaTotalQuantidades > 0) {
+                resultados[box] = pesoLiquidoTotal / somaTotalQuantidades;
+            } else {
+                resultados[box] = 0; // Ou outro valor padrão para evitar divisão por zero
+            }
         }
         return resultados;
     }
