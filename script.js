@@ -193,6 +193,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return aviarios.value + ' - 14 dias' + "\nPeso: " + mediaGeralElemento.textContent + "\nMortalidade: ";
             case '21 dias':
                 return aviarios.value + ' - 21 dias' + "\nPeso: " + mediaGeralElemento.textContent + "\nMortalidade: ";
+            case '28 dias':
+                return aviarios.value + ' - 28 dias' + "\nPeso: " + mediaGeralElemento.textContent + "\nMortalidade: ";
+            case '35 dias':
+                return aviarios.value + ' - 35 dias' + "\nPeso: " + mediaGeralElemento.textContent + "\nMortalidade: ";
             case 'Programação':
                 return 'Peso ' + aviarios.value + ': ' + mediaGeralElemento.textContent;
             default:
